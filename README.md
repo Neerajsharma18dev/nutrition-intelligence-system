@@ -24,25 +24,29 @@ This system bridges the gap between everyday food diary tracking, clinical sympt
 ## 📸 Preview
 
 ### Clinical Dashboard Overview
-![Clinical Dashboard](imges/Img1.png)
+<img src="./imges/Img1.png" alt="Clinical Dashboard" width="100%" />
 
 ### Authentication & Access Control
-![Authentication](imges/Img2.png)
+<img src="./imges/Img2.png" alt="Authentication" width="100%" />
 
 ### Patient Health Profile & Dietary Restrictions
-![Patient Health Profile](imges/Img3.png)
+<img src="./imges/Img3.png" alt="Patient Health Profile" width="100%" />
 
 ### Food Diary & Daily Micronutrient Tracker
-![Food Diary](imges/Img4.png)
+<img src="./imges/Img4.png" alt="Food Diary" width="100%" />
 
 ### AI Risk Screening & SHAP Explainability
-![AI Analysis](imges/Img5.png)
+<img src="./imges/Img5.png" alt="AI Analysis" width="100%" />
 
 ### Dietary Recommendations & Clinical Suggestions
-![Dietary Recommendations](imges/Img6.png)
+<img src="./imges/Img6.png" alt="Dietary Recommendations" width="100%" />
 
 ### Personalised 7-Day Meal Schedule
-![7-Day Meal Plan](imges/Img7.png)
+<img src="./imges/Img7.png" alt="7-Day Meal Plan" width="100%" />
+
+---
+
+## 📂 Project Structure
 
 ---
 
@@ -86,41 +90,41 @@ This system bridges the gap between everyday food diary tracking, clinical sympt
 
 ---
 
-## 📂 Project Structure
-
+<pre>
 nutrition-intelligence-system/
 ├── backend/
 │   ├── app/
-│   │   ├── core/
-│   │   ├── models/
-│   │   ├── routers/
-│   │   ├── schemas/
-│   │   ├── services/
-│   │   ├── config.py
-│   │   ├── database.py
-│   │   └── main.py
-│   ├── init_db.py
-│   ├── seed_foods.py
-│   └── requirements.txt
+│   │   ├── core/              # Security, JWT tokens, dependencies
+│   │   ├── models/            # SQLAlchemy database tables
+│   │   ├── routers/           # Auth, Profile, Nutrition, Assessment, Predict
+│   │   ├── schemas/           # Pydantic request/response validation
+│   │   ├── services/          # Calculator, Feature builder, Prediction, Planner
+│   │   ├── config.py          # App settings and environment paths
+│   │   ├── database.py        # SQLite engine and session generator
+│   │   └── main.py            # FastAPI entry point
+│   ├── init_db.py             # Database creation script
+│   ├── seed_foods.py          # Food catalogue seeder
+│   └── requirements.txt       # Backend dependencies
 ├── frontend/
 │   ├── src/
-│   │   ├── api/
-│   │   ├── components/layout/
-│   │   ├── context/
-│   │   ├── pages/
-│   │   ├── App.jsx
+│   │   ├── api/               # Axios client configuration
+│   │   ├── components/layout/ # Sidebar, Shell, Header
+│   │   ├── context/           # Authentication state context
+│   │   ├── pages/             # Dashboard, Auth, Diary, Profile, AI Analysis, Meal Plan
+│   │   ├── App.jsx            # Routing and protected layout
 │   │   └── main.jsx
 │   ├── package.json
 │   └── tailwind.config.js
 ├── ml/
-│   ├── pipeline/
-│   ├── generate_dataset.py
-│   ├── train.py
-│   └── explain.py
-├── data/
-├── database/
-├── imges/
+│   ├── pipeline/              # Feature ordering and RDA configs
+│   ├── generate_dataset.py    # Synthetic dataset generator (6,000 samples)
+│   ├── train.py               # Multi-model training and evaluation script
+│   └── explain.py             # SHAP TreeExplainer integration wrapper
+├── data/                      # Food catalogue and training datasets
+├── database/                  # SQLite database location
+├── imges/                     # Application screenshots for documentation
 └── README.md
+</pre>
 
 ---
 
