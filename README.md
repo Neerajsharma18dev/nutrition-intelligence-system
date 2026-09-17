@@ -24,29 +24,26 @@ This system bridges the gap between everyday food diary tracking, clinical sympt
 ## 📸 Preview
 
 ### Clinical Dashboard Overview
-<img src="./imges/Img1.png" alt="Clinical Dashboard" width="100%" />
+![Clinical Dashboard](Imges/Img1.png)
 
 ### Authentication & Access Control
-<img src="./imges/Img2.png" alt="Authentication" width="100%" />
+![Authentication](Imges/Img2.png)
 
 ### Patient Health Profile & Dietary Restrictions
-<img src="./imges/Img3.png" alt="Patient Health Profile" width="100%" />
+![Patient Health Profile](Imges/Img3.png)
 
 ### Food Diary & Daily Micronutrient Tracker
-<img src="./imges/Img4.png" alt="Food Diary" width="100%" />
+![Food Diary](Imges/Img4.png)
 
 ### AI Risk Screening & SHAP Explainability
-<img src="./imges/Img5.png" alt="AI Analysis" width="100%" />
+![AI Analysis](Imges/Img5.png)
 
 ### Dietary Recommendations & Clinical Suggestions
-<img src="./imges/Img6.png" alt="Dietary Recommendations" width="100%" />
+![Dietary Recommendations](Imges/Img6.png)
 
 ### Personalised 7-Day Meal Schedule
-<img src="./imges/Img7.png" alt="7-Day Meal Plan" width="100%" />
+![7-Day Meal Plan](Imges/Img7.png)
 
----
-
-## 📂 Project Structure
 
 ---
 
@@ -89,6 +86,8 @@ This system bridges the gap between everyday food diary tracking, clinical sympt
 - Structured JSON Storage
 
 ---
+
+## 📂 Project Structure
 
 <pre>
 nutrition-intelligence-system/
