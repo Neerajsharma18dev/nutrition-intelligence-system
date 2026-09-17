@@ -1,0 +1,11 @@
+id,name,category,serving_description,serving_grams,calories,protein_g,carbs_g,fat_g,fiber_g,iron_mg,calcium_mg,vitamin_d_mcg,vitamin_b12_mcg,vitamin_c_mg,is_vegetarian,is_vegan,is_gluten_free,is_dairy_free,suitable_meals,tags
+1,Spinach (Cooked),vegetable,1 cup cooked,180,41,5.3,6.8,0.5,4.3,6.4,245,0.0,0.0,17.6,true,true,true,true,"[""lunch"",""dinner""]","[""greens"",""iron-rich""]"
+2,Boiled Egg,protein,1 large egg,50,78,6.3,0.6,5.3,0.0,0.9,28,1.1,0.6,0.0,true,false,true,true,"[""breakfast"",""snack""]","[""eggs"",""b12-source""]"
+3,Grilled Salmon,protein,1 fillet,150,310,34.0,0.0,18.0,0.0,0.8,20,14.2,4.8,0.0,false,false,true,true,"[""lunch"",""dinner""]","[""fish"",""omega-3"",""vit-d""]"
+4,Cow Milk (Whole),dairy,1 glass (240ml),245,149,7.7,11.7,8.0,0.0,0.1,276,2.9,1.1,0.0,true,false,true,false,"[""breakfast"",""snack""]","[""dairy"",""calcium""]"
+5,Lentil Curry (Dal),legume,1 bowl cooked,200,230,17.9,39.9,0.8,15.6,6.6,38,0.0,0.0,3.0,true,true,true,true,"[""lunch"",""dinner""]","[""lentils"",""high-protein""]"
+6,Orange,fruit,1 medium,131,62,1.2,15.4,0.2,3.1,0.1,52,0.0,0.0,69.7,true,true,true,true,"[""breakfast"",""snack""]","[""citrus"",""vitamin-c""]"
+7,Oatmeal (Rolled Oats),grain,1 cup cooked,234,158,5.9,27.0,3.2,4.0,2.1,21,0.0,0.0,0.0,true,true,true,true,"[""breakfast""]","[""oats"",""fiber""]"
+8,Greek Yogurt,dairy,1 cup,200,146,20.0,7.8,3.8,0.0,0.1,230,0.2,1.0,0.0,true,false,true,false,"[""breakfast"",""snack""]","[""fermented"",""protein""]"
+9,Almonds,nuts,1 handful (28g),28,164,6.0,6.1,14.2,3.5,1.0,76,0.0,0.0,0.0,true,true,true,true,"[""snack""]","[""nuts"",""healthy-fats""]"
+10,Tofu (Firm),protein,100g,100,144,17.0,3.0,8.0,2.0,5.4,350,2.5,0.0,0.1,true,true,true,true,"[""lunch"",""dinner""]","[""vegan"",""iron"",""calcium""]"

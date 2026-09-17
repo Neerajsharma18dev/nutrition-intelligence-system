@@ -1,0 +1,37 @@
+# Virtual Environment
+venv/
+ENV/
+env/
+
+# Node / Frontend Dependencies
+node_modules/
+frontend/node_modules/
+frontend/dist/
+dist/
+
+# Python Cache & Build
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Environment Variables & Secrets (CRITICAL)
+.env
+*.env
+!.env.example
+
+# Local SQLite Database
+database/*.db
+database/*.sqlite3
+*.db
+*.sqlite3
+
+# Trained Model Artifacts (Heavy Files)
+models/*.joblib
+models/*.pkl
+
+# IDEs & System Files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

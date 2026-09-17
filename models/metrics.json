@@ -1,0 +1,37 @@
+{
+  "iron": {
+    "accuracy": 0.9525,
+    "precision": 0.8182,
+    "recall": 0.675,
+    "f1": 0.7397,
+    "roc_auc": 0.979
+  },
+  "vitamin_d": {
+    "accuracy": 0.9158,
+    "precision": 0.8842,
+    "recall": 0.6802,
+    "f1": 0.7689,
+    "roc_auc": 0.9696
+  },
+  "vitamin_b12": {
+    "accuracy": 0.9508,
+    "precision": 0.8898,
+    "recall": 0.7152,
+    "f1": 0.793,
+    "roc_auc": 0.988
+  },
+  "calcium": {
+    "accuracy": 0.9492,
+    "precision": 0.7938,
+    "recall": 0.6525,
+    "f1": 0.7163,
+    "roc_auc": 0.961
+  },
+  "vitamin_c": {
+    "accuracy": 0.9458,
+    "precision": 0.7321,
+    "recall": 0.9444,
+    "f1": 0.8248,
+    "roc_auc": 0.9788
+  }
+}
