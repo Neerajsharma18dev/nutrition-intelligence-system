@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api/client';
-import { Plus, Trash2, Search, Utensils } from 'lucide-react';
+import { Plus, Trash2, Calendar, Utensils } from 'lucide-react';
 
 export default function FoodDiary() {
+  // Default to today in YYYY-MM-DD format
+  const [selectedDate, setSelectedDate] = useState(() => new Date().toISOString().split('T')[0]);
   const [diary, setDiary] = useState({ entries: [], totals: {} });
   const [foods, setFoods] = useState([]);
-  const [search, setSearch] = useState('');
   const [selectedFoodId, setSelectedFoodId] = useState(1);
   const [quantity, setQuantity] = useState(1.0);
   const [mealType, setMealType] = useState('breakfast');
   const [loading, setLoading] = useState(false);
 
-  const fetchDiary = async () => {
+  // Fetch diary entries for the chosen date
+  const fetchDiary = async (targetDate = selectedDate) => {
     try {
-      const res = await api.get('/food-diary');
+      const res = await api.get(`/food-diary?entry_date=${targetDate}`);
       setDiary(res.data);
-    } catch {}
+    } catch (err) {
+      console.error('Failed to fetch diary entries:', err);
+    }
   };
 
   const fetchFoods = async (q = '') => {
@@ -25,11 +29,17 @@ export default function FoodDiary() {
       if (res.data.length > 0 && !selectedFoodId) {
         setSelectedFoodId(res.data[0].id);
       }
-    } catch {}
+    } catch (err) {
+      console.error('Failed to fetch food list:', err);
+    }
   };
 
+  // Re-fetch diary whenever selected date changes
   useEffect(() => {
-    fetchDiary();
+    fetchDiary(selectedDate);
+  }, [selectedDate]);
+
+  useEffect(() => {
     fetchFoods();
   }, []);
 
@@ -41,30 +51,51 @@ export default function FoodDiary() {
         food_id: selectedFoodId,
         quantity: parseFloat(quantity),
         meal_type: mealType,
+        entry_date: selectedDate, // Selected date sent to backend
       });
-      await fetchDiary();
+      await fetchDiary(selectedDate);
+    } catch (err) {
+      console.error('Failed to log meal:', err);
     } finally {
       setLoading(false);
     }
   };
 
   const handleDelete = async (id) => {
-    await api.delete(`/food-diary/${id}`);
-    await fetchDiary();
+    try {
+      await api.delete(`/food-diary/${id}`);
+      await fetchDiary(selectedDate);
+    } catch (err) {
+      console.error('Failed to delete entry:', err);
+    }
   };
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-slate-900">Food Diary & Nutrition Intake</h1>
-        <p className="text-sm text-slate-500">Track daily logged foods and calculated micronutrient totals</p>
+      {/* Header with Date Selection Controls */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">Food Diary & Nutrition Intake</h1>
+          <p className="text-sm text-slate-500">Track daily logged foods and calculated micronutrient totals</p>
+        </div>
+
+        {/* Date Selector */}
+        <div className="flex items-center gap-2 bg-white px-3 py-1.5 border border-slate-200 rounded-xl shadow-sm">
+          <Calendar className="w-4 h-4 text-emerald-600 shrink-0" />
+          <input
+            type="date"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+            className="text-sm font-semibold text-slate-700 bg-transparent outline-none cursor-pointer"
+          />
+        </div>
       </div>
 
       {/* Add Entry Card */}
       <form onSubmit={handleAdd} className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
         <h2 className="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
           <Utensils className="w-4 h-4 text-emerald-600" />
-          <span>Log Food Consumption</span>
+          <span>Log Food Consumption ({selectedDate})</span>
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
           <div>
@@ -112,10 +143,10 @@ export default function FoodDiary() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2 bg-emerald-600 text-white rounded-lg text-sm font-semibold hover:bg-emerald-700 transition flex items-center justify-center gap-1.5"
+              className="w-full py-2 bg-emerald-600 text-white rounded-lg text-sm font-semibold hover:bg-emerald-700 transition flex items-center justify-center gap-1.5 disabled:opacity-50"
             >
               <Plus className="w-4 h-4" />
-              <span>Add Item</span>
+              <span>{loading ? 'Adding...' : 'Add Item'}</span>
             </button>
           </div>
         </div>
@@ -137,7 +168,7 @@ export default function FoodDiary() {
 
       {/* Entries List */}
       <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
-        <h2 className="text-sm font-bold text-slate-800 mb-3">Logged Items for Today</h2>
+        <h2 className="text-sm font-bold text-slate-800 mb-3">Logged Items for {selectedDate}</h2>
         {diary.entries.length === 0 ? (
           <p className="text-xs text-slate-400 py-6 text-center">No foods logged for this date yet.</p>
         ) : (
@@ -168,4 +199,4 @@ export default function FoodDiary() {
       </div>
     </div>
   );
-}
+} 

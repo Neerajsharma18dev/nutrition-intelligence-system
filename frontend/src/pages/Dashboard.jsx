@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/client';
 import { Cpu, ArrowRight, CheckCircle2, TrendingUp } from 'lucide-react';
+import NutritionTrendsCard from '../components/layout/NutritionTrendsCard';
 
 export default function Dashboard() {
   const [profile, setProfile] = useState(null);
@@ -35,7 +36,7 @@ export default function Dashboard() {
         <p className="text-sm text-slate-500 mt-1">Multi-nutrient risk overview and screening inference summary</p>
       </div>
 
-      {/* Top 3 Stat Cards - 1 col on mobile, 3 cols on desktop, auto-scaling */}
+      {/* Top 3 Stat Cards - 1 col on mobile, 3 cols on desktop */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
           <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Composite Health Index</p>
@@ -98,6 +99,9 @@ export default function Dashboard() {
         </Link>
       </div>
 
+      {/* Milestone 3 Requirement: Multi-day Nutritional History Trends & Adherence Card */}
+      <NutritionTrendsCard />
+
       {/* Latest Prediction Results Card */}
       <div className="w-full bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
@@ -154,4 +158,4 @@ export default function Dashboard() {
       </div>
     </div>
   );
-}
+} 

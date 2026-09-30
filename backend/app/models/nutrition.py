@@ -1,4 +1,4 @@
-"""Food catalogue and the user's food diary."""
+"""Food catalogue, user's food diary, meal plans, and nutrition snapshots."""
 
 from datetime import date, datetime
 
@@ -18,7 +18,7 @@ class Food(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(140), nullable=False, index=True)
-    category = Column(String(60), nullable=False)             # grain, protein, vegetable...
+    category = Column(String(60), nullable=False)           # grain, protein, vegetable...
     serving_description = Column(String(80), nullable=False)  # "1 cup cooked"
     serving_grams = Column(Float, nullable=False)
 
@@ -71,3 +71,47 @@ class FoodDiaryEntry(Base):
 
     def __repr__(self) -> str:
         return f"<FoodDiaryEntry id={self.id} food_id={self.food_id} qty={self.quantity}>"
+
+
+# --- Milestone 3: Generated 7-Day Meal Plans & Daily Snapshots ---
+
+class MealPlanRecord(Base):
+    """Stores generated 7-day personalized meal plan recommendations."""
+
+    __tablename__ = "meal_plans"
+    __table_args__ = {'extend_existing': True}
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=True, index=True)
+    diet_preference = Column(String(50), default="flexible")
+    allergies = Column(JSON, default=list)
+    deficiencies = Column(JSON, default=list)
+    plan_data = Column(JSON, nullable=False) 
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    def __repr__(self) -> str:
+        return f"<MealPlanRecord id={self.id} diet={self.diet_preference}>"
+
+
+class NutritionSnapshot(Base):
+    """Stores daily nutrient intake aggregations and adherence history for trend charts."""
+
+    __tablename__ = "nutrition_snapshots"
+    __table_args__ = {'extend_existing': True}
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=True, index=True)
+    snapshot_date = Column(Date, default=date.today, nullable=False, index=True)
+    calories = Column(Float, default=0.0)
+    protein_g = Column(Float, default=0.0)
+    carbs_g = Column(Float, default=0.0)
+    fat_g = Column(Float, default=0.0)
+    iron_mg = Column(Float, default=0.0)
+    calcium_mg = Column(Float, default=0.0)
+    vitamin_d_mcg = Column(Float, default=0.0)
+    vitamin_b12_mcg = Column(Float, default=0.0)
+    adherence_score = Column(Float, default=100.0)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    def __repr__(self) -> str:
+        return f"<NutritionSnapshot id={self.id} date={self.snapshot_date} adherence={self.adherence_score}%>" 

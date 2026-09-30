@@ -1,5 +1,5 @@
-from datetime import date
-from typing import List, Optional
+from datetime import date, timedelta
+from typing import Any, Dict, List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
@@ -82,3 +82,87 @@ def delete_diary_entry(
     db.delete(entry)
     db.commit()
     return None
+
+
+# --- Milestone 3: Historical Nutrient Trends & Adherence Tracking ---
+@router.get("/food-diary/history/trends")
+def get_nutrition_history_trends(
+    days: int = Query(default=7, ge=3, le=30),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Returns daily intake aggregations, micronutrient totals, and dietary adherence.
+    Provides has_sufficient_data=False when less than 2 distinct days are logged.
+    """
+    cutoff = date.today() - timedelta(days=days)
+
+    entries = (
+        db.query(FoodDiaryEntry)
+        .filter(
+            FoodDiaryEntry.user_id == current_user.id,
+            FoodDiaryEntry.entry_date >= cutoff
+        )
+        .order_by(FoodDiaryEntry.entry_date.asc())
+        .all()
+    )
+
+    daily_aggregates: Dict[str, Dict[str, Any]] = {}
+
+    for entry in entries:
+        d_str = entry.entry_date.isoformat()
+        if d_str not in daily_aggregates:
+            daily_aggregates[d_str] = {
+                "date": d_str,
+                "calories": 0.0,
+                "protein_g": 0.0,
+                "carbs_g": 0.0,
+                "fat_g": 0.0,
+                "iron_mg": 0.0,
+                "calcium_mg": 0.0,
+                "vitamin_d_mcg": 0.0,
+                "vitamin_b12_mcg": 0.0,
+                "items_count": 0,
+            }
+
+        food = entry.food
+        qty = float(entry.quantity or 1.0)
+        if food:
+            daily_aggregates[d_str]["calories"] += float(food.calories or 0.0) * qty
+            daily_aggregates[d_str]["protein_g"] += float(food.protein_g or 0.0) * qty
+            daily_aggregates[d_str]["carbs_g"] += float(food.carbs_g or 0.0) * qty
+            daily_aggregates[d_str]["fat_g"] += float(food.fat_g or 0.0) * qty
+            daily_aggregates[d_str]["iron_mg"] += float(food.iron_mg or 0.0) * qty
+            daily_aggregates[d_str]["calcium_mg"] += float(food.calcium_mg or 0.0) * qty
+            daily_aggregates[d_str]["vitamin_d_mcg"] += float(food.vitamin_d_mcg or 0.0) * qty
+            daily_aggregates[d_str]["vitamin_b12_mcg"] += float(food.vitamin_b12_mcg or 0.0) * qty
+            daily_aggregates[d_str]["items_count"] += 1
+
+    trends = sorted(daily_aggregates.values(), key=lambda x: x["date"])
+
+    # Baseline adherence check
+    for item in trends:
+        item["calories"] = round(item["calories"])
+        item["protein_g"] = round(item["protein_g"], 1)
+        item["carbs_g"] = round(item["carbs_g"], 1)
+        item["fat_g"] = round(item["fat_g"], 1)
+        item["iron_mg"] = round(item["iron_mg"], 1)
+        item["calcium_mg"] = round(item["calcium_mg"], 1)
+        item["vitamin_d_mcg"] = round(item["vitamin_d_mcg"], 1)
+        item["vitamin_b12_mcg"] = round(item["vitamin_b12_mcg"], 1)
+        # Adherence score calculation based on target baseline (~2000 kcal)
+        item["adherence_score"] = min(100, round((item["calories"] / 2000) * 100))
+
+    if len(trends) < 2:
+        return {
+            "has_sufficient_data": False,
+            "message": "Insufficient historical entries. Log meals for at least 2 distinct days to unlock trend analytics.",
+            "days_recorded": len(trends),
+            "trends": trends,
+        }
+
+    return {
+        "has_sufficient_data": True,
+        "days_recorded": len(trends),
+        "trends": trends,
+    } 
